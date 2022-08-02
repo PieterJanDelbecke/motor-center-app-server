@@ -23,9 +23,9 @@ app.use("/api",useRestRouter)
 
 
 const users = [
-    {id: 1, email: 'test1@email.com', password: 'password1', firstName: 'Adam', lastName: 'Ant', phoneNumber: "0405666111"},
-    {id: 2, email: 'test2@email.com', password: 'password2', firstName: 'Bob', lastName: 'Builder', phoneNumber: "0405666222"},
-    {id: 3, email: 'test3@email.com', password: 'password3', firstName: 'Charlie', lastName: 'Chan', phoneNumber: "0405666333"},
+    {id: 1, uuid: "UUID1", email: 'test1@email.com', password: 'password1', firstName: 'Adam', lastName: 'Ant', phoneNumber: "0405666111"},
+    {id: 2, uuid: "UUID2", email: 'test2@email.com', password: 'password2', firstName: 'Bob', lastName: 'Builder', phoneNumber: "0405666222"},
+    {id: 3, uuid: "UUID3", email: 'test3@email.com', password: 'password3', firstName: 'Charlie', lastName: 'Chan', phoneNumber: "0405666333"},
 ]
 
 
@@ -34,6 +34,7 @@ const UserType = new GraphQLObjectType({
     description:"These are the login details of an user",
     fields: () => ({
         id: {type: GraphQLNonNull(GraphQLInt)},
+        uuid: {type: GraphQLNonNull(GraphQLString)},
         email: { type: GraphQLNonNull(GraphQLString)},
         password: {type: GraphQLNonNull(GraphQLString)},
         firstName: { type: GraphQLNonNull(GraphQLString)},
@@ -57,7 +58,28 @@ const RootQueryType = new GraphQLObjectType({
             args: {
                 id: { type : GraphQLInt }
             },
-            resolve: (parent, args) => users.find( user => user.id === args.id)
+            // resolve: (parent, args) => users.find( user => user.id === args.id)
+            resolve: async (parent, args) => {
+                try {
+                    const customerFound = await customer.findOne({
+                        where: {
+                            id: args.id
+                        }
+                    })
+                    const response = {
+                        id: args.id,
+                        uuid: customerFound.dataValues.uuid,
+                        password: customerFound.dataValues.password,
+                        firstName: customerFound.dataValues.first_name,
+                        lastName: customerFound.dataValues.last_name,
+                        phoneNumber: customerFound.dataValues.phoneNumber,
+                    }
+                    console.log("+++response: ", response)
+                    return response
+                } catch (error) {
+                    console.error(error)
+                }
+            }
         }
     })
 })
