@@ -50,7 +50,27 @@ const RootQueryType = new GraphQLObjectType({
         users: {
             type: new GraphQLList(UserType),
             description: 'List of All Users',
-            resolve: () => users
+            resolve:  async (parent, args) => {
+                try{
+                    const customers = await customer.findAll()
+                    const clients = []
+                    for (const client of customers){
+                        const response = {
+                            id: client.id,
+                            uuid: client.uuid,
+                            email: client.email,
+                            password: client.password,
+                            firstName: client.first_name,
+                            lastName: client.last_name,
+                            phoneNumber: client.phone_number,
+                        }
+                        clients.push(response)
+                    }
+                    return clients
+                } catch (error){
+                    console.error(error)
+                }
+            }
         },
         user: {
             type: UserType,
@@ -72,7 +92,7 @@ const RootQueryType = new GraphQLObjectType({
                         password: customerFound.dataValues.password,
                         firstName: customerFound.dataValues.first_name,
                         lastName: customerFound.dataValues.last_name,
-                        phoneNumber: customerFound.dataValues.phoneNumber,
+                        phoneNumber: customerFound.dataValues.phone_number,
                     }
                     console.log("+++response: ", response)
                     return response
