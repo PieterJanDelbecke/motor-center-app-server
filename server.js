@@ -8,6 +8,9 @@ const { RootMutationType, RootQueryType } = require("./graphql/gqlCustomers");
 // const useRestRouter = require("./routes/rest-api");
 // const useRestRouter = require("./routes/rest-api");
 // const useRestRouter = require("./routes/rest-api");
+// const useRestRouter = require("./routes/rest-api");
+// const useRestRouter = require("./routes/rest-api");
+// const useRestRouter = require("./routes/rest-api");
 
 const app = express();
 const port = 3200;
