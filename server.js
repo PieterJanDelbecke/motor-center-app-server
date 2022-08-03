@@ -14,6 +14,10 @@ const { RootMutationType, RootQueryType } = require("./graphql/gqlCustomers");
 
 const app = express();
 const port = 3200;
+// const app = express();
+// const port = 3200;
+// const app = express();
+// const port = 3200;
 
 app.use(express.json());
 
