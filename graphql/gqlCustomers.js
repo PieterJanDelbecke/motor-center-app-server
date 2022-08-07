@@ -27,7 +27,7 @@ const CustomerType = new GraphQLObjectType({
     name: "query",
     description: "Root Query",
     fields: () => ({
-      users: {
+      customers: {
         type: new GraphQLList(CustomerType),
         description: "List of All Users",
         resolve: async (parent, args) => {
@@ -52,7 +52,7 @@ const CustomerType = new GraphQLObjectType({
           }
         },
       },
-      user: {
+      customer: {
         type: CustomerType,
         description: "Gives a single User",
         args: {
@@ -68,6 +68,7 @@ const CustomerType = new GraphQLObjectType({
             const response = {
               id: args.id,
               uuid: customerFound.dataValues.uuid,
+              email: customerFound.dataValues.email,
               password: customerFound.dataValues.password,
               firstName: customerFound.dataValues.first_name,
               lastName: customerFound.dataValues.last_name,
@@ -97,7 +98,7 @@ const CustomerType = new GraphQLObjectType({
           lastName: { type: GraphQLNonNull(GraphQLString) },
           phoneNumber: { type: GraphQLNonNull(GraphQLString) },
         },
-        resolve: async (package, args) => {
+        resolve: async (parent, args) => {
           try {
             const customersCount = await customer.count();
             const newCustomer = await customer.create({
