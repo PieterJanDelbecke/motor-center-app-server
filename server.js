@@ -1,7 +1,7 @@
 const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
 
-const { sequelize, customer, customer_info } = require("./models");
+const { sequelize, customer, customer_info } = require("./src/models");
 const { typeDefs } = require("./src/schema/typeDefs");
 const { resolvers } = require("./src/schema/resolvers");
 

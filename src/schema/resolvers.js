@@ -1,4 +1,4 @@
-const { sequelize, customer, customer_info } = require("../../models");
+const { sequelize, customer, customer_info } = require("../models");
 
 const resolvers = {
   Query: {
