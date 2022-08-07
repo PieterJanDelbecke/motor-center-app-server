@@ -4,7 +4,7 @@ const res = require("express/lib/response");
 const { append } = require("express/lib/response");
 const restRouter = express.Router();
 
-const { sequelize, customer, customer_info } = require("../models");
+const { sequelize, customer, customer_info } = require("../../models");
 
 restRouter.get("/rest/customers", async (req, res) => {
   try {
